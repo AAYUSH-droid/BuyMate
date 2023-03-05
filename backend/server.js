@@ -18,7 +18,7 @@ app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
 
-//another way
+//another way checking git ignore
 // const port = 4000;
 // const start = async () => {
 //   try {
