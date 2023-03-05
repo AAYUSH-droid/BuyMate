@@ -1,6 +1,8 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
+const ApiFeatures = require("../utils/apifeatures");
+
 //Create product -- Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {
   const products = await Product.create(req.body);
@@ -21,12 +23,23 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //   });
 // };
 //catchAsyncError another way to using tryCatch funcanitlity
+
+//GET All Products
 exports.getAllProducts = catchAsyncError(async (req, res) => {
-  const products = await Product.find();
+  const resultPerPage = 5;
+  const productCount = await Product.countDocuments();
+
+  const apiFeature = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage);
+  const products = await apiFeature.query;
+
   res.status(200).json({
     //message: "route is working fine",
     success: true,
     products,
+    productCount,
   });
 });
 
