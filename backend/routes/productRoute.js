@@ -6,6 +6,7 @@ const {
   deleteProduct,
   getProductDetails,
 } = require("../controllers/productController");
+const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -13,13 +14,17 @@ const router = express.Router();
 router.route("/products").get(getAllProducts);
 
 //create products
-router.route("/product/new").post(createProduct);
+router
+  .route("/product/new")
+  .post(isAuthenticatedUser, authorizeRoles("admin"), createProduct);
 
 //update porducts(put req)
 router
   .route("/product/:id")
-  .put(updateProduct)
-  .delete(deleteProduct)
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct)
   .get(getProductDetails);
 
 module.exports = router;
+
+//authorizeRoles("admin") -> only admin can do these tasks
