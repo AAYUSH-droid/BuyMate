@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs"); //hashes the paswword so admin cant see user passwords
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -64,6 +65,22 @@ userSchema.methods.getJWTToken = function () {
 
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password); //compare enteredPassword and hashed password in database return true or false
+};
+
+//Generating Password Reset token crypto module(already built in)
+userSchema.methods.getResetPasswordToken = function () {
+  //Generating Token
+  const resetToken = crypto.randomBytes(20).toString("hex"); //makes a 20 random bytes string
+
+  //Hashing and adding to resetPasswordToken userSchema
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+  return resetToken; //resets the password which is there for 15 mins and now throgh nodemailer we can send the mail to reset password
 };
 
 module.exports = mongoose.model("User", userSchema);
