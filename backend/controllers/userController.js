@@ -70,3 +70,5 @@ exports.logout = catchAsyncError(async (req, res, next) => {
     message: "Logged Out",
   });
 });
+
+//Forgot Password
