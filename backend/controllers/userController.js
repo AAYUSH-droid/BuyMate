@@ -113,3 +113,16 @@ exports.forgotPasswords = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHander(error.message, 500));
   }
 });
+
+//Get User details
+exports.getUserDetails = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+//Update user password
+//update profile
