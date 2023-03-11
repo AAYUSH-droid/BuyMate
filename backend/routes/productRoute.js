@@ -6,6 +6,7 @@ const {
   deleteProduct,
   getProductDetails,
   createProductReview,
+  getProductReviews,
 } = require("../controllers/productController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -33,3 +34,5 @@ module.exports = router;
 //authorizeRoles("admin") -> only admin can do these tasks
 
 router.route("/review").put(isAuthenticatedUser, createProductReview);
+
+router.route("/reviews").get(getProductReviews);

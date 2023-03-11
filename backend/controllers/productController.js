@@ -151,3 +151,36 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     success: true,
   });
 });
+
+//Get all reviews of product
+exports.getProductReviews = catchAsyncError(async (req, res, next) => {
+  const product = await Product.findById(req.query.id);
+
+  if (!product) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    reviews: product.reviews,
+  });
+});
+
+//Delete Reviews
+exports.deleteReview = catchAsyncError(async (req, res, next) => {
+  const product = await Product.findById(req.query.id);
+  if (!product) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+
+  // Deleting Images From Cloudinary
+  // for (let i = 0; i < product.images.length; i++) {
+  //   await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+  // }
+
+  await product.remove();
+
+  res.status(200).json({
+    success: true,
+    message: "Product Delete Successfully",
+  });
+});
