@@ -5,17 +5,7 @@ import Product from "./ProductCard.js";
 import MetaData from "../../component/layout/MetaData";
 import { getProduct } from "../../actions/productActions";
 import { useSelector, useDispatch } from "react-redux";
-
-const product = {
-  name: "Blue tshirt",
-  images: [
-    {
-      url: "https://img.freepik.com/premium-vector/blue-vector-men-s-t-shirt-mockup_292608-166.jpg",
-    },
-  ],
-  price: "Rs3000",
-  _id: "hello",
-};
+import Loader from "../layout/Loader/Loader";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -29,24 +19,31 @@ const Home = () => {
 
   return (
     <Fragment>
-      <MetaData title="BuyMate" />
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <MetaData title="BuyMate" />
 
-      <div className="banner">
-        <p>Welcome to BuyMate</p>
-        <h1>Find amazing products</h1>
+          <div className="banner">
+            <p>Welcome to BuyMate</p>
+            <h1>Find amazing products</h1>
 
-        <a href="#container">
-          <button>
-            Scroll <CgMouse />
-          </button>
-        </a>
-      </div>
-      <h2 className="homeHeading">Featured Products</h2>
+            <a href="#container">
+              <button>
+                Scroll <CgMouse />
+              </button>
+            </a>
+          </div>
+          <h2 className="homeHeading">Featured Products</h2>
 
-      <div className="container" id="container">
-        {/* <Product product={product} /> */}
-        {products && products.map((product) => <Product product={product} />)}
-      </div>
+          <div className="container" id="container">
+            {/* <Product product={product} /> */}
+            {products &&
+              products.map((product) => <Product product={product} />)}
+          </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
