@@ -6,6 +6,7 @@ import ReviewCard from "./ReviewCard.js";
 import Loader from "../layout/Loader/Loader";
 import { getProductDetails } from "../../actions/productActions";
 import ReactStars from "react-rating-stars-component";
+import MetaData from "../layout/MetaData";
 
 const ProductDetails = ({ match }) => {
   const { product, loading } = useSelector((state) => state.productDetails);
@@ -28,6 +29,7 @@ const ProductDetails = ({ match }) => {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title={`${product.name} -- BuyMate`} />
           <div className="ProductDetails">
             <div>
               <Carousel>
