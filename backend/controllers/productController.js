@@ -28,7 +28,7 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //GET All Products
 exports.getAllProducts = catchAsyncError(async (req, res) => {
   const resultPerPage = 8;
-  const productCount = await Product.countDocuments();
+  const productsCount = await Product.countDocuments();
 
   const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
@@ -40,7 +40,7 @@ exports.getAllProducts = catchAsyncError(async (req, res) => {
     //message: "route is working fine",
     success: true,
     products,
-    productCount,
+    productsCount,
   });
 });
 
