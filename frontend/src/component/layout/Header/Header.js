@@ -1,6 +1,8 @@
 import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from "../../../images/logo.png";
+import { MdAccountCircle } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 
 const options = {
   burgerColorHover: "#eb4034",
@@ -19,6 +21,10 @@ const options = {
   link4Url: "/about",
   link1Size: "1.3vmax",
   link1Color: "rgba(35, 35, 35,0.8)",
+  profileIcon: true,
+  ProfileIconElement: MdAccountCircle,
+  searchIcon: true,
+  SearchIconElement: MdSearch,
   nav1justifyContent: "flex-end",
   nav2justifyContent: "flex-end",
   nav3justifyContent: "flex-start",
