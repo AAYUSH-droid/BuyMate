@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, login } from "../../actions/userAction";
+import { login, register } from "../../actions/userAction";
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
@@ -46,10 +46,9 @@ const LoginSignUp = () => {
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
-    // dispatch(register(myForm));
-
-    console.log("Signup form submitted");
+    dispatch(register(myForm));
   };
+
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
       const reader = new FileReader();
