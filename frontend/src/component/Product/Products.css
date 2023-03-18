@@ -72,6 +72,7 @@
   top: 10vmax;
   left: 4vmax;
 }
+
 .categoryBox {
   padding: 0%;
 }
@@ -87,6 +88,11 @@
 .category-link:hover {
   color: tomato;
 }
+
+.filterBox > fieldset {
+  border: 1px solid rgba(0, 0, 0, 0.329);
+}
+
 @media screen and (max-width: 600px) {
   .filterBox {
     width: 20vmax;

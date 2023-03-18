@@ -1,20 +1,25 @@
 import React, { Fragment, useEffect } from "react";
-import "./Home.css";
 import { CgMouse } from "react-icons/cg";
-import Product from "./ProductCard.js";
-import MetaData from "../../component/layout/MetaData";
-import { getProduct } from "../../actions/productActions";
+import "./Home.css";
+import ProductCard from "./ProductCard.js";
+import MetaData from "../layout/MetaData";
+import { clearErrors, getProduct } from "../../actions/productAction";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert";
 
 const Home = () => {
+  const alert = useAlert();
   const dispatch = useDispatch();
-  //errors, productCount
-  const { loading, products } = useSelector((state) => state.products);
+  const { loading, error, products } = useSelector((state) => state.products);
 
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     dispatch(getProduct());
-  }, [dispatch]);
+  }, [dispatch, error, alert]);
 
   return (
     <Fragment>
@@ -22,11 +27,11 @@ const Home = () => {
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title="BuyMate" />
+          <MetaData title="ECOMMERCE" />
 
           <div className="banner">
-            <p>Welcome to BuyMate</p>
-            <h1>Find amazing products</h1>
+            <p>Welcome to Ecommerce</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
             <a href="#container">
               <button>
@@ -34,12 +39,14 @@ const Home = () => {
               </button>
             </a>
           </div>
+
           <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
-            {/* <Product product={product} /> */}
             {products &&
-              products.map((product) => <Product product={product} />)}
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </Fragment>
       )}

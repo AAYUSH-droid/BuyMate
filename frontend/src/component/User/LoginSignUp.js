@@ -1,18 +1,21 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
-
 import { useDispatch, useSelector } from "react-redux";
-import { login, register } from "../../actions/userAction";
+import { clearErrors, login, register } from "../../actions/userAction";
+import { useAlert } from "react-alert";
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
+  const alert = useAlert();
 
-  const { loading } = useSelector((state) => state.user);
+  const { error, loading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -55,7 +58,6 @@ const LoginSignUp = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          //only 3 states 0,1,2
           setAvatarPreview(reader.result);
           setAvatar(reader.result);
         }
@@ -67,11 +69,18 @@ const LoginSignUp = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     if (isAuthenticated) {
-  //       history.push("/account");
-  //     }
-  //   }, [history, isAuthenticated]);
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    if (isAuthenticated) {
+      history.push(redirect);
+    }
+  }, [dispatch, error, alert, history, isAuthenticated, redirect]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
