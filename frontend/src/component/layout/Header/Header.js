@@ -5,7 +5,8 @@ import { MdAccountCircle } from "react-icons/md";
 import { MdSearch } from "react-icons/md";
 
 const options = {
-  burgerColorHover: "#eb4034",
+  burgerColor: "#eb4034",
+  // burgerColorHover: "#eb4034",
   logo,
   logoWidth: "20vmax",
   navColor1: "white",
