@@ -1,26 +1,21 @@
-require("dotenv").config();
 const app = require("./app");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-// const connectDB = require("./config/connect");
 const cloudinary = require("cloudinary");
+const connectDatabase = require("./config/database");
 
-//config OF DOTENV
-dotenv.config({ path: "backend/config/config.env" });
-
-//handling uncaught error/exception
+// Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to uncaught Error exception`);
+  console.log(`Shutting down the server due to Uncaught Exception`);
   process.exit(1);
 });
 
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("DB connection successful"));
-// .catch((err) => {
-//   console.log(err);
-// });
+// Config
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "backend/config/config.env" });
+}
+
+// Connecting to database
+connectDatabase();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -32,23 +27,12 @@ const server = app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
 
-//Unhandled Promise rejection (when connectionstring is wrong callUnhandled Promise rejection and remove catch block from mongoose.connect)
+// Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
-  console.log(`Error : ${err.message}`);
-  console.log(`Shutting down the server due to unhandled promise rejection`);
+  console.log(`Error: ${err.message}`);
+  console.log(`Shutting down the server due to Unhandled Promise Rejection`);
 
   server.close(() => {
     process.exit(1);
   });
 });
-
-//another way checking git ignore
-// const port = 4000;
-// const start = async () => {
-//   try {
-//     await connectDB(process.env.MONGO_URI);
-//     app.listen(port, console.log(`Server is working on port ${port}`));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
