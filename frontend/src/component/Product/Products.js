@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
-import Pagination from "react-js-pagination";
+// import Pagination from "react-js-pagination";
 import Slider from "@material-ui/core/Slider";
 import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
@@ -25,6 +25,7 @@ const Products = ({ match }) => {
 
   const alert = useAlert();
 
+  // eslint-disable-next-line
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
   const [category, setCategory] = useState("");
@@ -35,21 +36,23 @@ const Products = ({ match }) => {
     products,
     loading,
     error,
-    productsCount,
-    resultPerPage,
+    // productsCount,
+    // resultPerPage,
+    // eslint-disable-next-line
     filteredProductsCount,
   } = useSelector((state) => state.products);
 
   const keyword = match.params.keyword;
 
+  // eslint-disable-next-line
   const setCurrentPageNo = (e) => {
-    setCurrentPage(e);
+    // setCurrentPage(e);
   };
 
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
-  let count = filteredProductsCount;
+  // let count = filteredProductsCount;
 
   useEffect(() => {
     if (error) {
@@ -114,7 +117,7 @@ const Products = ({ match }) => {
               />
             </fieldset>
           </div>
-          {resultPerPage < count && (
+          {/* {resultPerPage < count && (
             <div className="paginationBox">
               <Pagination
                 activePage={currentPage}
@@ -131,7 +134,7 @@ const Products = ({ match }) => {
                 activeLinkClass="pageLinkActive"
               />
             </div>
-          )}
+          )} */}
         </Fragment>
       )}
     </Fragment>
